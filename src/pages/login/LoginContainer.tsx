@@ -13,7 +13,6 @@ export const LoginContainer: React.FC = (): ReactElement => {
 
   return (
     <div id="loginContainer">
-      login container
       <Container fluid={true}>
         <Row>
           <LoginSection />

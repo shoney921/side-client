@@ -1,0 +1,58 @@
+// LoginForm.scss
+
+.login-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    text-align: center;
+    color: #333;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      margin-bottom: 10px;
+
+      input {
+        width: 90%;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+
+        &:focus {
+          outline: none;
+          border-color: #007bff;
+        }
+      }
+
+      span {
+        color: red;
+        font-size: 12px;
+      }
+    }
+
+    button {
+      width: 100%; // 로그인 버튼의 너비를 100%로 조정
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+}
