@@ -1,0 +1,11 @@
+#loginContainer {
+  height: 100% !important;
+  width: 100%;
+  .container-fluid {
+    height: 100% !important;
+    & > .row {
+      height: 100%;
+      align-items: center;
+    }
+  }
+}
