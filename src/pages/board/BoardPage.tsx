@@ -1,5 +1,3 @@
-// BoardPage.tsx
-
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -13,15 +11,17 @@ interface Board {
   content: string;
 }
 
-const BoardPage: React.FC<BoardPageProps> = ({ boards }) => {
+const BoardPage: React.FC<BoardPageProps> = (props: BoardPageProps) => {
   return (
     <div>
       <h1>게시판</h1>
       <ul>
-        {boards.map((board) => (
+        {props.boards.map((board) => (
           <li key={board.id}>
-            {board.id} : {board.title}
-            {/* <Link to={`/boards/${board.id}`}>{board.title}</Link> */}
+            <span></span>
+            <Link to={`/boards/${board.id}`}>
+              {board.id} : {board.title}
+            </Link>
           </li>
         ))}
       </ul>
