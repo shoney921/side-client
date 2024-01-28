@@ -1,30 +1,65 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import axios, { AxiosResponse } from "axios";
+import React, { useEffect, useState } from "react";
+import ListGroup from "react-bootstrap/ListGroup";
+import { Link, useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Button, Col, Row } from "react-bootstrap";
+import "./BoardPage.scss";
 
-interface BoardPageProps {
-  boards: Board[]; // Board 타입 배열
-}
+export const axiosInstance = axios.create({
+  baseURL: "http://localhost:8080",
+});
 
-interface Board {
-  id: number;
+interface Post {
+  postId: number;
+  memberId: string;
   title: string;
   content: string;
+  createDate: string;
+  updateDate: string;
 }
 
-const BoardPage: React.FC<BoardPageProps> = (props: BoardPageProps) => {
+const BoardPage: React.FC = () => {
+  const navigate = useNavigate();
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axiosInstance.get<Post[]>("/posts");
+        console.log(response);
+        setPosts(response.data);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  const handleCreatePostOnClick = () => {
+    // navigate();
+  };
+
   return (
     <div>
       <h1>게시판</h1>
-      <ul>
-        {props.boards.map((board) => (
-          <li key={board.id}>
-            <span></span>
-            <Link to={`/boards/${board.id}`}>
-              {board.id} : {board.title}
-            </Link>
-          </li>
+      <ListGroup>
+        {posts.map((post) => (
+          <ListGroup.Item
+            action
+            href={`/boards/${post.postId}`}
+            key={post.postId}
+          >
+            {post.postId} : {post.title}
+          </ListGroup.Item>
         ))}
-      </ul>
+      </ListGroup>
+      <div className="button-wrapper">
+        <Button variant="light" onClick={handleCreatePostOnClick}>
+          게시물 등록
+        </Button>
+      </div>
     </div>
   );
 };

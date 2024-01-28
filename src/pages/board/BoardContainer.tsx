@@ -1,34 +1,44 @@
 // BoardContainer.tsx
 
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { axiosInstance } from "./BoardPage";
 
-interface BoardContainerProps {
-  boards: Board[]; // Board 타입 배열
-}
+// const axiosInstance = axios.create({
+//   baseURL: "http://localhost:8080",
+// });
 
-interface Board {
-  id: number;
+interface Post {
+  postId: number;
   title: string;
   content: string;
 }
 
-const BoardContainer: React.FC<BoardContainerProps> = ({ boards }) => {
+const BoardContainer: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [board, setBoard] = useState<Board | null>(null);
+  const [post, setPost] = useState<Post | null>(null);
 
   useEffect(() => {
-    // boards 배열에서 id에 해당하는 게시물 찾기
-    const selectedBoard = boards.find((b) => b.id === Number(id));
-    setBoard(selectedBoard || null);
-  }, [boards, id]);
+    const fetchPosts = async () => {
+      try {
+        const response = await axiosInstance.get<Post>(`/posts/${id}`);
+        console.log(response.data);
+        setPost(response.data);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    fetchPosts();
+  }, [id]);
 
   return (
     <div>
-      {board ? (
+      {post ? (
         <div>
-          <h2>{board.title}</h2>
-          <p>{board.content}</p>
+          <h2>{post.title}</h2>
+          <p>{post.content}</p>
         </div>
       ) : (
         <p>게시물을 찾을 수 없습니다.</p>
